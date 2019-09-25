@@ -45,21 +45,15 @@ int main(int argc, char* argv[]) {
 	   printf("\n");
 	   printf("dst ip : ");
 	   for(int i=30; i<33; i++)
-		printf("%d",packet[i]);
+		printf("%d.",packet[i]);
 	   printf("%d",packet[34]);
 	   printf("\n");
 
 	   if(packet[23] == 6)
 	   {
 		tcplen = packet[26+iplen]/16;
-		printf("src port : ");
-    		for(int i=18+iplen; i>14+iplen; i--)
-			printf("%02x",packet[i]);
-   		printf("\n");
-    		printf("dst port : ");
-    		for(int i=22+iplen; i>18+iplen; i--)
-			printf("%02x",packet[i]);
-    		printf("\n");
+		printf("src port : %d\n",packet[14+iplen]+packet[15+iplen]*32);
+    		printf("dst port : %d\n",packet[16+iplen]+packet[17+iplen]*32);
 
 		if(header->caplen > 18+iplen+tcplen)
 			printf("DATA : ");
