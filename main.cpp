@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     printf("\n");
     if(packet[12]*256+packet[13] == 2048) 
     {
-	   iplen = packet[14]%16;
+	   iplen = 4*(packet[14]%16);
 	   printf("src ip : ");
 	   for(int i=26; i<29; i++)
 		printf("%d.",packet[i]);
@@ -51,15 +51,27 @@ int main(int argc, char* argv[]) {
 
 	   if(packet[23] == 6)
 	   {
-		tcplen = packet[26+iplen]/16;
+		tcplen = 4*(packet[26+iplen]/16);
 		printf("src port : %d\n",(int)packet[14+iplen]+(int)packet[15+iplen]*256);
     		printf("dst port : %d\n",(int)packet[16+iplen]+(int)packet[17+iplen]*256);
 
 		if(header->caplen > 18+iplen+tcplen)
-			printf("DATA : ");
-	   		for(int i=14+iplen+tcplen; i<46+iplen+tcplen; i++)
-				printf("%02x ",packet[i]);
-	   		printf("\n");
+		{
+			if(header->caplen - (18+iplen+tcplen) > 32)
+			{
+				printf("DATA : ");
+	   			for(int i=14+iplen+tcplen; i<46+iplen+tcplen; i++)
+					printf("%02x ",packet[i]);
+	   			printf("\n");
+			}			
+			else
+			{
+				printf("DATA : ");
+	   			for(int i=14+iplen+tcplen; i<header->caplen-4; i++)
+					printf("%02x ",packet[i]);
+	   			printf("\n");
+			}
+	   	}
 	   }
     }
   }
