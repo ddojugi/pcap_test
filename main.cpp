@@ -39,15 +39,17 @@ int main(int argc, char* argv[]) {
     {
 	   iplen = packet[14]%16;
 	   printf("src ip : ");
-	   for(int i=26; i<30; i++)
-		printf("%02x",packet[i]);
+	   for(int i=26; i<29; i++)
+		printf("%d.",packet[i]);
+	   printf("%d",packet[30]);
 	   printf("\n");
 	   printf("dst ip : ");
-	   for(int i=30; i<34; i++)
-		printf("%02x",packet[i]);
+	   for(int i=30; i<33; i++)
+		printf("%d",packet[i]);
+	   printf("%d",packet[34]);
 	   printf("\n");
 
-	   if(packet[24]*256+packet[25] == 6)
+	   if(packet[23] == 6)
 	   {
 		tcplen = packet[26+iplen]/16;
 		printf("src port : ");
