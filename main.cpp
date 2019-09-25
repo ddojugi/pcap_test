@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
 	   if(packet[23] == 6)
 	   {
 		tcplen = packet[26+iplen]/16;
-		printf("src port : %d\n",packet[14+iplen]+packet[15+iplen]*32);
-    		printf("dst port : %d\n",packet[16+iplen]+packet[17+iplen]*32);
+		printf("src port : %d\n",(int)packet[14+iplen]+(int)packet[15+iplen]*256);
+    		printf("dst port : %d\n",(int)packet[16+iplen]+(int)packet[17+iplen]*256);
 
 		if(header->caplen > 18+iplen+tcplen)
 			printf("DATA : ");
